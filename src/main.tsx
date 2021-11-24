@@ -10,7 +10,7 @@ ReactDOM.render(
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<App />}>
-          <Route path="/line" element={<LineChart />}></Route>
+          <Route path="line" element={<LineChart />}></Route>
         </Route>
       </Routes>
     </BrowserRouter>

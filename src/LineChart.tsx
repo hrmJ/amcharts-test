@@ -46,9 +46,5 @@ export const LineChart: FC = function () {
     };
   }, []);
 
-  return (
-    <div>
-      <div id="chartdiv" style={{ width: "100%", height: "500px" }}></div>
-    </div>
-  );
+  return <div id="chartdiv" style={{ width: "100%", height: "500px" }}></div>;
 };

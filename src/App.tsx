@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import "./App.css";
 
 function App() {
@@ -8,7 +8,9 @@ function App() {
         <Link to="/">Home</Link>
         <Link to="line">Line chart</Link>
       </nav>
-      <main className="main"></main>
+      <main className="main">
+        <Outlet></Outlet>
+      </main>
     </>
   );
 }
