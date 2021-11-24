@@ -1,7 +1,29 @@
+html {
+  --navbg: hsl(0, 0%, 15%);
+  --marginsm: 4px;
+  --marginlg: 32px;
+  --paddignsm: 4px;
+  --paddignlg: 32px;
+  --white1: hsl(0, 0%, 89%);
+  padding-top: 0;
+  margin-top: 0;
+}
+
 body {
+  padding-top: 0;
+}
+
+nav {
+  margin-top: 0;
+  color: var(--white1);
+  background: var(--navbg);
+  padding: var(--paddignsm);
+}
+
+nav ul {
+  margin: 0;
+  list-style-type: none;
   display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .main {
