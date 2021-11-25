@@ -9,22 +9,23 @@ am4core.useTheme(am4themes_animated);
 export const CovTest1: FC = function () {
   const chartRef = useRef<null | am4charts.XYChart>(null);
   useLayoutEffect(() => {
-    fetch(`http://localhost:3001/sample`)
-      .then((raw) => raw.json())
-      .then((data: CovCaseData[]) => {
-        const chart = am4core.create("cov-case-chart", am4charts.XYChart);
-        // chart.data = data;
-        chart.data = [{ hcdmunicipality2020: "alue a", value: 3 }];
-        const x = chart.xAxes.push(new am4charts.CategoryAxis());
-        const y = chart.yAxes.push(new am4charts.ValueAxis());
-        x.title.text = "Alue";
-        y.title.text = "Tapauksia";
-        const series = chart.series.push(new am4charts.ColumnSeries());
-        series.dataFields.categoryX = "hcdmunicipality2020";
-        series.dataFields.valueY = "value";
-        // series.columns.template.fill = am4core.color("#000000");
-        chartRef.current = chart;
-      });
+    const chart = am4core.create("cov-case-chart", am4charts.XYChart);
+    chart.data = [
+      {
+        country: "Lithuania",
+        research: 3,
+      },
+    ];
+    const categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+    categoryAxis.dataFields.category = "country";
+    chart.yAxes.push(new am4charts.ValueAxis());
+    const series = chart.series.push(new am4charts.ColumnSeries());
+    series.dataFields.valueY = "research";
+    series.dataFields.categoryX = "country";
+    chartRef.current = chart;
+    return () => {
+      chart.dispose();
+    };
   }, []);
 
   return (
