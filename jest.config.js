@@ -10,5 +10,5 @@ module.exports = {
   transform: {
     "^.+\\.js$": "babel-jest",
   },
+  snapshotSerializers: ["jest-serializer-html"],
 };
-

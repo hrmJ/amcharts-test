@@ -1,19 +1,17 @@
-import { prettyDOM, render, screen } from "@testing-library/react";
-import { CovChart } from "../src/CovTest1";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { CovBundle } from "../src/CovBundle";
+import { App } from "../src/App";
 
 describe("The covid data page", () => {
-  it("renders a chart on the page if data delivered as props", async () => {
-    const { container } = render(
-      <CovChart
-        data={[
-          {
-            value: "3",
-            hcdmunicipality2020: "Some place",
-            dateweek20200101: "222",
-          },
-        ]}
-      ></CovChart>
+  it("renders a regional chart on the page when a link is clicked", async () => {
+    const { getByRole, container } = render(<CovBundle></CovBundle>, {
+      wrapper: App,
+    });
+    const regionChartLink = getByRole("link", { name: /alueittain/ });
+    fireEvent.click(regionChartLink);
+    screen.debug();
+    await waitFor(() =>
+      expect(container.querySelector("svg")).toBeInTheDocument()
     );
-    expect(container.querySelector("svg")).toBeInTheDocument();
   });
 });

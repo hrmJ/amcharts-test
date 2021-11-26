@@ -1,5 +1,6 @@
 html {
-  --navbg: hsl(0, 0%, 15%);
+  --dark1: hsl(0, 0%, 15%);
+  --dark2: hsl(0, 0%, 25%);
   --marginsm: 4px;
   --marginmd: 19px;
   --marginlg: 32px;
@@ -7,6 +8,9 @@ html {
   --paddignmd: 10px;
   --paddignlg: 32px;
   --white1: hsl(0, 0%, 89%);
+  --white2: hsl(0, 0%, 83%);
+  --white3: hsl(0, 0%, 73%);
+  --subnav-width: 17em;
   padding-top: 0;
   margin-top: 0;
 }
@@ -18,7 +22,7 @@ body {
 nav {
   margin-top: 0;
   color: var(--white1);
-  background: var(--navbg);
+  background: var(--dark1);
   padding: var(--paddignsm);
 }
 
@@ -37,10 +41,22 @@ nav ul {
   display: flex;
 }
 
-.main {
-  width: 80vw;
+.cov-bundle-container {
   display: flex;
-  flex-flow: column;
-  align-items: center;
-  justify-content: center;
+}
+.cov-bundle-container aside {
+  padding-right: var(--paddignmd);
+  width: var(--subnav-width);
+  background-color: var(--dark2);
+  min-height: 100vh;
+}
+
+.cov-bundle-container a {
+  color: var(--white3);
+  text-decoration: none;
+}
+
+.cov-bundle-container ul {
+  padding-left: var(--paddignmd);
+  list-style-type: none;
 }

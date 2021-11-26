@@ -1,19 +1,34 @@
-import { Link, Outlet } from "react-router-dom";
-import "./App.css";
+import { FC } from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { CovBundle } from "./CovBundle";
+import { CovChart } from "./CovChart";
+import Home from "./Home";
+import { LineChart } from "./LineChart";
 
-function App() {
+export const App: FC = function () {
   return (
-    <>
-      <nav>
-        <Link to="/">Home</Link>
-        <Link to="line">Line chart</Link>
-        <Link to="covtest">Covid cases</Link>
-      </nav>
-      <main className="main">
-        <Outlet></Outlet>
-      </main>
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />}>
+          <Route path="line" element={<LineChart />}></Route>
+          <Route path="covtest" element={<CovBundle></CovBundle>}>
+            <Route
+              path="regional"
+              element={
+                <CovChart
+                  data={[
+                    {
+                      dateweek20200101: "asd",
+                      value: "3",
+                      hcdmunicipality2020: "aa",
+                    },
+                  ]}
+                />
+              }
+            ></Route>
+          </Route>
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
-}
-
-export default App;
+};
