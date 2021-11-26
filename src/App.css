@@ -54,6 +54,11 @@ nav ul {
 
 .cov-bundle-container .chart-container {
   width: 100%;
+  padding: var(--paddignmd);
+}
+
+.cov-bundle-container .chart-container select {
+  margin: var(--marginmd);
 }
 
 .cov-bundle-container aside li + li {
