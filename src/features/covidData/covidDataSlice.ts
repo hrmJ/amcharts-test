@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import { CovCaseData } from "amcharts-test-types";
 import { Dispatch } from "react";
 

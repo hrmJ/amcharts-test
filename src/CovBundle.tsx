@@ -16,9 +16,12 @@ export const CovBundle: FC = function () {
           <li>
             <Link to="regional">Tapaukset alueittain</Link>
           </li>
+          <li>
+            <Link to="weekly">Tapaukset viikottain</Link>
+          </li>
         </ul>
       </aside>
-      <div>
+      <div className="chart-container">
         <Outlet></Outlet>
       </div>
     </div>

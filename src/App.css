@@ -10,6 +10,7 @@ html {
   --white1: hsl(0, 0%, 89%);
   --white2: hsl(0, 0%, 83%);
   --white3: hsl(0, 0%, 73%);
+  --white4: hsl(0, 0%, 63%);
   --subnav-width: 17em;
   padding-top: 0;
   margin-top: 0;
@@ -51,8 +52,16 @@ nav ul {
   min-height: 100vh;
 }
 
+.cov-bundle-container .chart-container {
+  width: 100%;
+}
+
+.cov-bundle-container aside li + li {
+  margin-top: var(--marginmd);
+}
+
 .cov-bundle-container a {
-  color: var(--white3);
+  color: var(--white4);
   text-decoration: none;
 }
 

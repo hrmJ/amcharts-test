@@ -3,6 +3,7 @@ import * as am4core from "@amcharts/amcharts4/core";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 import { FC, useLayoutEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
+import { loadingState } from "./features/covidData/covidDataSlice";
 import { RootState } from "./store";
 
 am4core.useTheme(am4themes_animated);
@@ -16,7 +17,9 @@ export interface CovDataProps {}
 export const CovChart: FC<CovDataProps> = function () {
   const chartRef = useRef<null | am4charts.XYChart>(null);
   const [isLoading, setIsloading] = useState(true);
-  const data = useSelector((state: RootState) => state.covidData.allData);
+  const { allData: data, loading: dataLoading } = useSelector(
+    (state: RootState) => state.covidData
+  );
   useLayoutEffect(() => {
     const chart = am4core.create("cov-case-chart", am4charts.XYChart);
     const grouped = data
@@ -53,7 +56,8 @@ export const CovChart: FC<CovDataProps> = function () {
 
   return (
     <>
-      {isLoading && <p>Ladataaan...</p>}
+      {dataLoading === loadingState.LOADING && <p>Ladataan dataa...</p>}
+      {isLoading && <p>Ladataaan grafiikkaa...</p>}
       <div id="cov-case-chart" style={{ width: "100%", height: "700px" }}></div>
     </>
   );
