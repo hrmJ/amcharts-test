@@ -11,7 +11,9 @@ am4core.useTheme(am4themes_animated);
 
 export const CovChartWeekly: FC = function () {
   const chartRef = useRef<null | am4charts.XYChart>(null);
-  const [currentRegions, setRegions] = useState(["Kaikki Alueet"]);
+  const [currentRegions, setRegions] = useState<{ [key: string]: string }>({
+    compRegion1: "Kaikki Alueet",
+  });
   const [isLoading, setIsloading] = useState(true);
   const { allData: data, loading: dataLoading } = useSelector(
     (state: RootState) => state.covidData
@@ -25,7 +27,7 @@ export const CovChartWeekly: FC = function () {
   useLayoutEffect(() => {
     const chart = am4core.create("cov-case-chart", am4charts.XYChart);
     chart.data = data.filter(({ hcdmunicipality2020 }) =>
-      currentRegions.includes(hcdmunicipality2020)
+      Object.values(currentRegions).includes(hcdmunicipality2020)
     );
     const categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
     chart.yAxes.push(new am4charts.ValueAxis());
@@ -35,6 +37,7 @@ export const CovChartWeekly: FC = function () {
     categoryAxis.title.text = "Viikko";
     series.dataFields.categoryX = "dateweek20200101";
     series.dataFields.valueY = "value";
+
     chartRef.current = chart;
     setIsloading(false);
     return () => {
@@ -44,19 +47,26 @@ export const CovChartWeekly: FC = function () {
 
   return (
     <>
-      {currentRegions.map((thisRegion, idx) => (
+      {Object.entries(currentRegions).map(([regionKey, thisRegion]) => (
         <RegionSelect
+          key={regionKey}
           regions={regions}
           currentRegion={thisRegion}
           setRegion={(val: string) =>
-            setRegions(
-              currentRegions.map((origVal, subIdx) =>
-                subIdx === idx ? val : origVal
-              )
-            )
+            setRegions({ ...currentRegions, [regionKey]: val })
           }
         ></RegionSelect>
       ))}
+      <button
+        onClick={() =>
+          setRegions({
+            ...currentRegions,
+            [`compRegion${Object.values(currentRegions).length + 1}`]: "",
+          })
+        }
+      >
+        Lisää alue vertailuun
+      </button>
       {dataLoading === loadingState.LOADING && <p>Ladataan dataa...</p>}
       {isLoading && <p>Ladataaan grafiikkaa...</p>}
       <div id="cov-case-chart" style={{ width: "100%", height: "700px" }}></div>
