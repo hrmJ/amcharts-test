@@ -1,7 +1,7 @@
 import { prettyDOM, render, screen } from "@testing-library/react";
 import { CovChart } from "../src/CovTest1";
 
-describe("The covid data page", async () => {
+describe("The covid data page", () => {
   it("renders a chart on the page if data delivered as props", async () => {
     const { container } = render(
       <CovChart
@@ -14,10 +14,6 @@ describe("The covid data page", async () => {
         ]}
       ></CovChart>
     );
-    const snapshot = container.outerHTML.replace(
-      /filter-id-\d+/g,
-      "filter-id-X"
-    );
-    expect(snapshot).toMatchSnapshot();
+    expect(container.querySelector("svg")).toBeInTheDocument();
   });
 });

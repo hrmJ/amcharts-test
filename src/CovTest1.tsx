@@ -10,43 +10,42 @@ type groupedVals = {
   [key: string]: number;
 };
 
-export const CovTest1: FC = function () {
+export interface CovDataProps {
+  data: CovCaseData[];
+}
+
+export const CovChart: FC<CovDataProps> = function ({ data }) {
   const chartRef = useRef<null | am4charts.XYChart>(null);
   const [isLoading, setIsloading] = useState(true);
   useLayoutEffect(() => {
-    setIsloading(true);
-    fetch(`http://localhost:3001/sample`)
-      .then((raw) => raw.json())
-      .then((data: CovCaseData[]) => {
-        const chart = am4core.create("cov-case-chart", am4charts.XYChart);
-        const grouped = data
-          .filter((row) => row.hcdmunicipality2020 !== "Kaikki Alueet")
-          .reduce((groups: groupedVals, { hcdmunicipality2020, value }) => {
-            const valueAsNumber = value ?? "0";
-            const aggregated =
-              groups[hcdmunicipality2020] + parseInt(valueAsNumber) ||
-              parseInt(valueAsNumber);
-            return { ...groups, [hcdmunicipality2020]: aggregated };
-          }, {});
-        const dataList = Object.entries(grouped).map(
-          ([hcdmunicipality2020, value]) => ({ hcdmunicipality2020, value })
-        );
-        dataList.sort((a, b) => a.value - b.value);
-        chart.data = dataList;
-        const categoryAxis = chart.yAxes.push(new am4charts.CategoryAxis());
-        const valueAxis = chart.xAxes.push(new am4charts.ValueAxis());
-        categoryAxis.dataFields.category = "hcdmunicipality2020";
-        categoryAxis.title.text = "Alue";
-        categoryAxis.renderer.minGridDistance = 20;
-        valueAxis.title.text = "Tapauksia";
-        const series = chart.series.push(new am4charts.ColumnSeries());
-        series.dataFields.categoryY = "hcdmunicipality2020";
-        series.dataFields.valueX = "value";
-        series.columns.template.tooltipText = "{categoryY}: {valueX}";
-        series.groupFields.valueX = "sum";
-        chartRef.current = chart;
-        setIsloading(false);
-      });
+    const chart = am4core.create("cov-case-chart", am4charts.XYChart);
+    const grouped = data
+      .filter((row) => row.hcdmunicipality2020 !== "Kaikki Alueet")
+      .reduce((groups: groupedVals, { hcdmunicipality2020, value }) => {
+        const valueAsNumber = value ?? "0";
+        const aggregated =
+          groups[hcdmunicipality2020] + parseInt(valueAsNumber) ||
+          parseInt(valueAsNumber);
+        return { ...groups, [hcdmunicipality2020]: aggregated };
+      }, {});
+    const dataList = Object.entries(grouped).map(
+      ([hcdmunicipality2020, value]) => ({ hcdmunicipality2020, value })
+    );
+    dataList.sort((a, b) => a.value - b.value);
+    chart.data = dataList;
+    const categoryAxis = chart.yAxes.push(new am4charts.CategoryAxis());
+    const valueAxis = chart.xAxes.push(new am4charts.ValueAxis());
+    categoryAxis.dataFields.category = "hcdmunicipality2020";
+    categoryAxis.title.text = "Alue";
+    categoryAxis.renderer.minGridDistance = 20;
+    valueAxis.title.text = "Tapauksia";
+    const series = chart.series.push(new am4charts.ColumnSeries());
+    series.dataFields.categoryY = "hcdmunicipality2020";
+    series.dataFields.valueX = "value";
+    series.columns.template.tooltipText = "{categoryY}: {valueX}";
+    series.groupFields.valueX = "sum";
+    chartRef.current = chart;
+    setIsloading(false);
     return () => {
       chartRef.current?.dispose();
     };
