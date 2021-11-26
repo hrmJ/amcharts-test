@@ -1,12 +1,12 @@
 import { FC, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Link, Outlet } from "react-router-dom";
-import { getData } from "./features/covidData/covidDataSlice";
+import { fetchCovidData } from "./features/covidData/covidDataSlice";
 
 export const CovBundle: FC = function () {
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getData());
+    dispatch(fetchCovidData());
   }, []);
 
   return (
