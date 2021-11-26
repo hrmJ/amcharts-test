@@ -31,6 +31,12 @@ export const CovChartWeekly: FC = function () {
     categoryAxis.renderer.labels.template.disabled = true;
     categoryAxis.title.text = "Viikko";
     chart.yAxes.push(new am4charts.ValueAxis());
+    chart.colors.list = [
+      am4core.color("red"),
+      am4core.color("blue"),
+      am4core.color("orange"),
+      am4core.color("purple"),
+    ];
 
     Object.values(currentRegions).forEach((currentRegion) => {
       const series = chart.series.push(new am4charts.LineSeries());
