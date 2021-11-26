@@ -40,4 +40,13 @@ describe("the weekly covid chart", () => {
     const option1 = getByRole("option", { name: "Place 1" });
     expect(option1).toBeInTheDocument();
   });
+
+  it("allows the user to add another select", () => {
+    const { getAllByRole } = render(
+      <Provider store={getTestStore()}>
+        <CovChartWeekly></CovChartWeekly>
+      </Provider>
+    );
+    expect(getAllByRole("combobox")).toHaveLength(1);
+  });
 });

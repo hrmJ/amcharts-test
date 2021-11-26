@@ -43,13 +43,12 @@ export const CovChartWeekly: FC = function () {
 
   return (
     <>
-      <select onChange={(ev) => setRegion(ev.target.value)}>
+      <select
+        onChange={(ev) => setRegion(ev.target.value)}
+        value={currentRegion}
+      >
         {regions.map((region) => (
-          <option
-            key={region}
-            value={region}
-            selected={region === currentRegion}
-          >
+          <option key={region} value={region}>
             {region}
           </option>
         ))}
