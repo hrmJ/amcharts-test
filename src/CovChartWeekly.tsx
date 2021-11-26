@@ -23,6 +23,8 @@ export const CovChartWeekly: FC = function () {
     chart.yAxes.push(new am4charts.ValueAxis());
     const series = chart.series.push(new am4charts.LineSeries());
     categoryAxis.dataFields.category = "dateweek20200101";
+    categoryAxis.renderer.labels.template.disabled = true;
+    categoryAxis.title.text = "Viikko";
     series.dataFields.categoryX = "dateweek20200101";
     series.dataFields.valueY = "value";
     chartRef.current = chart;
