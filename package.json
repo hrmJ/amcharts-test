@@ -12,6 +12,7 @@
     "@babel/core": "^7.16.0",
     "@babel/preset-env": "^7.16.4",
     "@babel/preset-react": "^7.16.0",
+    "@reduxjs/toolkit": "^1.6.2",
     "@testing-library/react": "^12.1.2",
     "amcharts-test-types": "file:../amcharts-test-types/amcharts-test-types-1.0.0.tgz",
     "babel-jest": "^27.3.1",
@@ -20,6 +21,7 @@
     "jsonstat-toolkit": "^1.4.1",
     "react": "^17.0.0",
     "react-dom": "^17.0.0",
+    "react-redux": "^7.2.6",
     "react-router-dom": "^6.0.2"
   },
   "devDependencies": {

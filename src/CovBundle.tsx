@@ -5,7 +5,7 @@ export const CovBundle: FC = function () {
   useEffect(() => {
     fetch("http://localhost:3001/sample")
       .then((resp) => resp.json())
-      .then()
+      .then((data) => console.log(data, "mor"))
       .catch((err) => console.log(err));
   });
 
