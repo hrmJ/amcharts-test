@@ -1,8 +1,9 @@
 import * as am4charts from "@amcharts/amcharts4/charts";
 import * as am4core from "@amcharts/amcharts4/core";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
-import { CovCaseData } from "amcharts-test-types";
 import { FC, useLayoutEffect, useRef, useState } from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "./store";
 
 am4core.useTheme(am4themes_animated);
 
@@ -10,13 +11,12 @@ type groupedVals = {
   [key: string]: number;
 };
 
-export interface CovDataProps {
-  data: CovCaseData[];
-}
+export interface CovDataProps {}
 
-export const CovChart: FC<CovDataProps> = function ({ data }) {
+export const CovChart: FC<CovDataProps> = function () {
   const chartRef = useRef<null | am4charts.XYChart>(null);
   const [isLoading, setIsloading] = useState(true);
+  const data = useSelector((state: RootState) => state.covidData.allData);
   useLayoutEffect(() => {
     const chart = am4core.create("cov-case-chart", am4charts.XYChart);
     const grouped = data
@@ -49,7 +49,7 @@ export const CovChart: FC<CovDataProps> = function ({ data }) {
     return () => {
       chartRef.current?.dispose();
     };
-  }, []);
+  }, [data]);
 
   return (
     <>

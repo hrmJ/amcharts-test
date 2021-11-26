@@ -1,13 +1,13 @@
 import { FC, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { Link, Outlet } from "react-router-dom";
+import { getData } from "./features/covidData/covidDataSlice";
 
 export const CovBundle: FC = function () {
+  const dispatch = useDispatch();
   useEffect(() => {
-    fetch("http://localhost:3001/sample")
-      .then((resp) => resp.json())
-      .then((data) => console.log(data, "mor"))
-      .catch((err) => console.log(err));
-  });
+    dispatch(getData());
+  }, []);
 
   return (
     <div className="cov-bundle-container">
