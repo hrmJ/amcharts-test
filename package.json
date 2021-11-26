@@ -25,10 +25,12 @@
   "devDependencies": {
     "@babel/preset-typescript": "^7.16.0",
     "@testing-library/jest-dom": "^5.15.1",
+    "@types/isomorphic-fetch": "^0.0.35",
     "@types/jest": "^27.0.3",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
     "@vitejs/plugin-react": "^1.0.0",
+    "isomorphic-fetch": "^3.0.0",
     "jest": "^27.3.1",
     "jest-serializer-html": "^7.1.0",
     "ts-jest": "^27.0.7",

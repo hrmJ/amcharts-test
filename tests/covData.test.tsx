@@ -1,17 +1,22 @@
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { render } from "@testing-library/react";
+import { BrowserRouter } from "react-router-dom";
 import { CovBundle } from "../src/CovBundle";
-import { App } from "../src/App";
 
 describe("The covid data page", () => {
-  it("renders a regional chart on the page when a link is clicked", async () => {
+  let origFetch: typeof window.fetch;
+  beforeEach(() => {
+    origFetch = window.fetch;
+    window.fetch = jest
+      .fn()
+      .mockResolvedValue({ json: jest.fn().mockResolvedValue([]) });
+  });
+  afterEach(() => {
+    window.fetch = origFetch;
+  });
+  it("loads the source data when rendered", async () => {
     const { getByRole, container } = render(<CovBundle></CovBundle>, {
-      wrapper: App,
+      wrapper: BrowserRouter,
     });
-    const regionChartLink = getByRole("link", { name: /alueittain/ });
-    fireEvent.click(regionChartLink);
-    screen.debug();
-    await waitFor(() =>
-      expect(container.querySelector("svg")).toBeInTheDocument()
-    );
+    expect(window.fetch).toHaveBeenCalledWith("http://localhost:3001/sample");
   });
 });

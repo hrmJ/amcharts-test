@@ -2,7 +2,7 @@
 module.exports = {
   preset: "ts-jest",
   testEnvironment: "jsdom",
-  setupFilesAfterEnv: ["./setUpJestDom.js", "./mockSvg.js"],
+  setupFilesAfterEnv: ["./setUpJestDom.js", "./mockSvg.js", "./setUpFetch.js"],
   moduleNameMapper: {
     "\\.(css|less|sass|scss)$": "<rootDir>/__mocks__/styleMock.js",
   },
