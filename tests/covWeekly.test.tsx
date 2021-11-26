@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { render } from "@testing-library/react";
+import { fireEvent, render } from "@testing-library/react";
 import { Provider } from "react-redux";
 import { CovChartWeekly } from "../src/CovChartWeekly";
 import {
@@ -42,11 +42,14 @@ describe("the weekly covid chart", () => {
   });
 
   it("allows the user to add another select", () => {
-    const { getAllByRole } = render(
+    const { getAllByRole, getByRole } = render(
       <Provider store={getTestStore()}>
         <CovChartWeekly></CovChartWeekly>
       </Provider>
     );
     expect(getAllByRole("combobox")).toHaveLength(1);
+    const selectAdder = getByRole("button", { name: /lisää alue/i });
+    fireEvent.click(selectAdder);
+    expect(getAllByRole("combobox")).toHaveLength(2);
   });
 });

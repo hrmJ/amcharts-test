@@ -4,13 +4,14 @@ import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 import { FC, useLayoutEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { loadingState } from "./features/covidData/covidDataSlice";
+import { RegionSelect } from "./RegionSelect";
 import { RootState } from "./store";
 
 am4core.useTheme(am4themes_animated);
 
 export const CovChartWeekly: FC = function () {
   const chartRef = useRef<null | am4charts.XYChart>(null);
-  const [currentRegion, setRegion] = useState("Kaikki Alueet");
+  const [currentRegions, setRegions] = useState(["Kaikki Alueet"]);
   const [isLoading, setIsloading] = useState(true);
   const { allData: data, loading: dataLoading } = useSelector(
     (state: RootState) => state.covidData
@@ -23,8 +24,8 @@ export const CovChartWeekly: FC = function () {
   }, []);
   useLayoutEffect(() => {
     const chart = am4core.create("cov-case-chart", am4charts.XYChart);
-    chart.data = data.filter(
-      (row) => row.hcdmunicipality2020 === currentRegion
+    chart.data = data.filter(({ hcdmunicipality2020 }) =>
+      currentRegions.includes(hcdmunicipality2020)
     );
     const categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
     chart.yAxes.push(new am4charts.ValueAxis());
@@ -39,20 +40,23 @@ export const CovChartWeekly: FC = function () {
     return () => {
       chartRef.current?.dispose();
     };
-  }, [data, currentRegion]);
+  }, [data, currentRegions]);
 
   return (
     <>
-      <select
-        onChange={(ev) => setRegion(ev.target.value)}
-        value={currentRegion}
-      >
-        {regions.map((region) => (
-          <option key={region} value={region}>
-            {region}
-          </option>
-        ))}
-      </select>
+      {currentRegions.map((thisRegion, idx) => (
+        <RegionSelect
+          regions={regions}
+          currentRegion={thisRegion}
+          setRegion={(val: string) =>
+            setRegions(
+              currentRegions.map((origVal, subIdx) =>
+                subIdx === idx ? val : origVal
+              )
+            )
+          }
+        ></RegionSelect>
+      ))}
       {dataLoading === loadingState.LOADING && <p>Ladataan dataa...</p>}
       {isLoading && <p>Ladataaan grafiikkaa...</p>}
       <div id="cov-case-chart" style={{ width: "100%", height: "700px" }}></div>
