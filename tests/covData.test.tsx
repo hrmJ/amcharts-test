@@ -1,6 +1,8 @@
 import { render } from "@testing-library/react";
+import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 import { CovBundle } from "../src/CovBundle";
+import { store } from "../src/store";
 
 describe("The covid data page", () => {
   let origFetch: typeof window.fetch;
@@ -14,9 +16,12 @@ describe("The covid data page", () => {
     window.fetch = origFetch;
   });
   it("loads the source data when rendered", async () => {
-    const { getByRole, container } = render(<CovBundle></CovBundle>, {
-      wrapper: BrowserRouter,
-    });
+    render(
+      <Provider store={store}>
+        <CovBundle></CovBundle>
+      </Provider>,
+      { wrapper: BrowserRouter }
+    );
     expect(window.fetch).toHaveBeenCalledWith("http://localhost:3001/sample");
   });
 });
