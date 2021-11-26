@@ -26,18 +26,24 @@ export const CovChartWeekly: FC = function () {
   }, []);
   useLayoutEffect(() => {
     const chart = am4core.create("cov-case-chart", am4charts.XYChart);
-    chart.data = data.filter(({ hcdmunicipality2020 }) =>
-      Object.values(currentRegions).includes(hcdmunicipality2020)
-    );
     const categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
-    chart.yAxes.push(new am4charts.ValueAxis());
-    const series = chart.series.push(new am4charts.LineSeries());
     categoryAxis.dataFields.category = "dateweek20200101";
     categoryAxis.renderer.labels.template.disabled = true;
     categoryAxis.title.text = "Viikko";
-    series.dataFields.categoryX = "dateweek20200101";
-    series.dataFields.valueY = "value";
+    chart.yAxes.push(new am4charts.ValueAxis());
 
+    Object.values(currentRegions).forEach((currentRegion) => {
+      const series = chart.series.push(new am4charts.LineSeries());
+      series.dataFields.categoryX = "dateweek20200101";
+      series.dataFields.valueY = "value";
+      const filtered = data.filter(
+        ({ hcdmunicipality2020 }) => currentRegion === hcdmunicipality2020
+      );
+      series.data = filtered;
+    });
+    chart.data = data.map(({ dateweek20200101 }) => ({
+      dateweek20200101,
+    }));
     chartRef.current = chart;
     setIsloading(false);
     return () => {
