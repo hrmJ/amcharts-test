@@ -2,7 +2,7 @@ import { FC } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { CovBundle } from "./CovBundle";
 import { CovChart } from "./CovChart";
-import { CovChartWeekly } from "./CovChartWeekly";
+import { CovChartWeekly } from "./CovidCharts/Weekly/CovChartWeekly";
 import Home from "./Home";
 import { LineChart } from "./LineChart";
 

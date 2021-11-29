@@ -3,9 +3,16 @@ import * as am4core from "@amcharts/amcharts4/core";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 import { FC, useLayoutEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
-import { loadingState } from "./features/covidData/covidDataSlice";
-import { RegionSelect } from "./RegionSelect";
-import { RootState } from "./store";
+import { loadingState } from "../../features/covidData/covidDataSlice";
+import { RegionSelect } from "../../RegionSelect";
+import {
+  addCategoryDataToAxis,
+  addCurrentWeekRange,
+  addRegionToChart,
+  createCategoryAxis,
+  createChart,
+} from "./chartUtils";
+import { RootState } from "../../store";
 
 am4core.useTheme(am4themes_animated);
 
@@ -25,32 +32,14 @@ export const CovChartWeekly: FC = function () {
     return [...allVals, ...output];
   }, []);
   useLayoutEffect(() => {
-    const chart = am4core.create("cov-case-chart", am4charts.XYChart);
-    const categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
-    categoryAxis.dataFields.category = "dateweek20200101";
-    categoryAxis.renderer.labels.template.disabled = true;
-    categoryAxis.title.text = "Viikko";
+    const chart = createChart();
+    const categoryAxis = createCategoryAxis(chart);
     chart.yAxes.push(new am4charts.ValueAxis());
-    chart.colors.list = [
-      am4core.color("red"),
-      am4core.color("blue"),
-      am4core.color("orange"),
-      am4core.color("purple"),
-    ];
-
-    Object.values(currentRegions).forEach((currentRegion) => {
-      const series = chart.series.push(new am4charts.LineSeries());
-      series.dataFields.categoryX = "dateweek20200101";
-      series.dataFields.valueY = "value";
-      const filtered = data.filter(
-        ({ hcdmunicipality2020 }) => currentRegion === hcdmunicipality2020
-      );
-      series.data = filtered;
-      series.tooltipText = `${currentRegion}: {valueY.value}`;
-    });
-    chart.data = data.map(({ dateweek20200101 }) => ({
-      dateweek20200101,
-    }));
+    Object.values(currentRegions).forEach((region) =>
+      addRegionToChart(chart, region, data)
+    );
+    addCategoryDataToAxis(chart, data);
+    addCurrentWeekRange(categoryAxis, data);
     chart.cursor = new am4charts.XYCursor();
     chartRef.current = chart;
     setIsloading(false);
