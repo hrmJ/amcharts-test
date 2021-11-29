@@ -1,28 +1,19 @@
 import * as am4charts from "@amcharts/amcharts4/charts";
 import * as am4core from "@amcharts/amcharts4/core";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
-import { FC, useLayoutEffect, useRef, useState } from "react";
+import { FC, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { loadingState } from "../../features/covidData/covidDataSlice";
 import { RegionSelect } from "../../RegionSelect";
-import {
-  addCategoryDataToAxis,
-  addCurrentWeekRange,
-  addRegionToChart,
-  addScrollbar,
-  createCategoryAxis,
-  createChart,
-} from "./chartUtils";
 import { RootState } from "../../store";
+import { CovChartWeekly } from "./Chart";
 
 am4core.useTheme(am4themes_animated);
 
-export const CovChartWeekly: FC = function () {
-  const chartRef = useRef<null | am4charts.XYChart>(null);
+export const CovChartWeeklyContainer: FC = function () {
   const [currentRegions, setRegions] = useState<{ [key: string]: string }>({
     compRegion1: "Kaikki Alueet",
   });
-  const [isLoading, setIsloading] = useState(true);
   const { allData: data, loading: dataLoading } = useSelector(
     (state: RootState) => state.covidData
   );
@@ -32,23 +23,6 @@ export const CovChartWeekly: FC = function () {
       : [hcdmunicipality2020];
     return [...allVals, ...output];
   }, []);
-  useLayoutEffect(() => {
-    const chart = createChart();
-    const categoryAxis = createCategoryAxis(chart);
-    chart.yAxes.push(new am4charts.ValueAxis());
-    Object.values(currentRegions).forEach((region) =>
-      addRegionToChart(chart, region, data)
-    );
-    addCategoryDataToAxis(chart, data);
-    addCurrentWeekRange(categoryAxis, data);
-    addScrollbar(chart);
-    chart.cursor = new am4charts.XYCursor();
-    chartRef.current = chart;
-    setIsloading(false);
-    return () => {
-      chartRef.current?.dispose();
-    };
-  }, [data, currentRegions]);
 
   return (
     <>
@@ -73,8 +47,7 @@ export const CovChartWeekly: FC = function () {
         Lisää alue vertailuun
       </button>
       {dataLoading === loadingState.LOADING && <p>Ladataan dataa...</p>}
-      {isLoading && <p>Ladataaan grafiikkaa...</p>}
-      <div id="cov-case-chart" style={{ width: "100%", height: "700px" }}></div>
+      <CovChartWeekly currentRegions={currentRegions} data={data} />
     </>
   );
 };

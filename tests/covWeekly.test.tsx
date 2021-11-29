@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { fireEvent, render } from "@testing-library/react";
 import { Provider } from "react-redux";
-import { CovChartWeekly } from "../src/CovChartWeekly";
+import { CovChartWeeklyContainer } from "../src/CovidCharts/Weekly/ChartContainer";
 import {
   covidDataReducer,
   loadingState,
@@ -34,7 +34,7 @@ describe("the weekly covid chart", () => {
   it("shows a select of regions based on the cov data", () => {
     const { getByRole } = render(
       <Provider store={getTestStore()}>
-        <CovChartWeekly></CovChartWeekly>
+        <CovChartWeeklyContainer></CovChartWeeklyContainer>
       </Provider>
     );
     const option1 = getByRole("option", { name: "Place 1" });
@@ -44,7 +44,7 @@ describe("the weekly covid chart", () => {
   it("allows the user to add another select", () => {
     const { getAllByRole, getByRole } = render(
       <Provider store={getTestStore()}>
-        <CovChartWeekly></CovChartWeekly>
+        <CovChartWeeklyContainer></CovChartWeeklyContainer>
       </Provider>
     );
     expect(getAllByRole("combobox")).toHaveLength(1);
