@@ -1,6 +1,8 @@
 import * as am4charts from "@amcharts/amcharts4/charts";
+import * as am4core from "@amcharts/amcharts4/core";
+import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 import { CovCaseData } from "amcharts-test-types";
-import { FC, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { FC, useEffect, useRef } from "react";
 import {
   addCategoryDataToAxis,
   addCurrentWeekRange,
@@ -10,17 +12,20 @@ import {
   createChart,
 } from "./chartUtils";
 
+am4core.useTheme(am4themes_animated);
+
 export interface CovChartWeeklyProps {
   data: CovCaseData[];
   currentRegions: { [key: string]: string };
+  setIsLoading: (val: boolean) => void;
 }
 
 export const CovChartWeekly: FC<CovChartWeeklyProps> = function ({
   data,
   currentRegions,
+  setIsLoading,
 }) {
   const chartRef = useRef<null | am4charts.XYChart>(null);
-  const [isLoading, setIsloading] = useState(true);
   useEffect(() => {
     const chart = createChart();
     const categoryAxis = createCategoryAxis(chart);
@@ -33,15 +38,14 @@ export const CovChartWeekly: FC<CovChartWeeklyProps> = function ({
     addScrollbar(chart);
     chart.cursor = new am4charts.XYCursor();
     chartRef.current = chart;
-    setIsloading(false);
+    console.log("SET");
+    setIsLoading(false);
     return () => {
       chartRef.current?.dispose();
     };
   }, [data, currentRegions]);
 
-  return isLoading ? (
-    <p>Ladataaan grafiikkaa...</p>
-  ) : (
+  return (
     <div id="cov-case-chart" style={{ width: "100%", height: "700px" }}></div>
   );
 };

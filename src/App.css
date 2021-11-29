@@ -74,3 +74,7 @@ nav ul {
   padding-left: var(--paddignmd);
   list-style-type: none;
 }
+
+.hidden {
+  visibility: hidden;
+}
