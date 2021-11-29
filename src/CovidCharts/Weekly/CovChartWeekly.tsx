@@ -9,6 +9,7 @@ import {
   addCategoryDataToAxis,
   addCurrentWeekRange,
   addRegionToChart,
+  addScrollbar,
   createCategoryAxis,
   createChart,
 } from "./chartUtils";
@@ -40,6 +41,7 @@ export const CovChartWeekly: FC = function () {
     );
     addCategoryDataToAxis(chart, data);
     addCurrentWeekRange(categoryAxis, data);
+    addScrollbar(chart);
     chart.cursor = new am4charts.XYCursor();
     chartRef.current = chart;
     setIsloading(false);

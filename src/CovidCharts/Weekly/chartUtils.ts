@@ -67,3 +67,12 @@ export function addCurrentWeekRange(
   range.axisFill.fill = am4core.color("#396478");
   range.axisFill.fillOpacity = 0.3;
 }
+
+export function addScrollbar(chart: am4charts.XYChart) {
+  if (!chart.series.length) {
+    return null;
+  }
+  const scrollbarX = new am4charts.XYChartScrollbar();
+  scrollbarX.series.push(chart.series.values[0]);
+  chart.scrollbarX = scrollbarX;
+}

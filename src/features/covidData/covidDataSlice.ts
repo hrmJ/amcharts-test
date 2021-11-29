@@ -35,10 +35,16 @@ export const covidDataSlice = createSlice({
         state.loading = loadingState.LOADING;
       }
     },
-    covidDataLoaded: (state, action) => {
+    covidDataLoaded: (state, action: { payload: CovCaseData[] }) => {
       if (state.loading === loadingState.LOADING) {
         state.loading = loadingState.IDLE;
-        state.allData = action.payload;
+        state.allData = action.payload.map((el) => ({
+          ...el,
+          dateweek20200101: el.dateweek20200101.replace(
+            /Vuosi (\d+) Viikko (\d+)/,
+            "$2/$1"
+          ),
+        }));
       }
     },
   },
