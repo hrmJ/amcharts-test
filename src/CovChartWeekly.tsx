@@ -46,10 +46,12 @@ export const CovChartWeekly: FC = function () {
         ({ hcdmunicipality2020 }) => currentRegion === hcdmunicipality2020
       );
       series.data = filtered;
+      series.tooltipText = `${currentRegion}: {valueY.value}`;
     });
     chart.data = data.map(({ dateweek20200101 }) => ({
       dateweek20200101,
     }));
+    chart.cursor = new am4charts.XYCursor();
     chartRef.current = chart;
     setIsloading(false);
     return () => {
