@@ -38,7 +38,6 @@ export const CovChartWeekly: FC<CovChartWeeklyProps> = function ({
     addScrollbar(chart);
     chart.cursor = new am4charts.XYCursor();
     chartRef.current = chart;
-    console.log("SET");
     setIsLoading(false);
     return () => {
       chartRef.current?.dispose();
